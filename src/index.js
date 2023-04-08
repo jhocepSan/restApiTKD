@@ -1,6 +1,6 @@
 import {configuraciones} from './config/config.js'
 import app from './utils/app.js';
-import {pool} from './utils/connection.js';
+import {pool,poolPostgress} from './utils/connection.js';
 import path from 'path'
 
 async function InitServer() {
@@ -12,15 +12,15 @@ async function InitServer() {
         console.log("Error en la conneccion : " + error);
         //await db.closeConnection();
     }
-    /*try {
-        console.log("Iniciando Coneccion a la BASE DE DATOS DE SANTA CRUZ....");
-        await db.iniciarConeccionSC();
-    } catch (error) {
-        console.log("Error en la conneccion : " + error);
-        await db.closeConnectionSC();
-    }
-    */
 
+    try {
+        console.log("Iniciando Coneccion de pruebas argis");
+        console.log(poolPostgress.getMaxListeners())
+    } catch (error) {
+        console.log("Error en la conneccion POSTGRESS: " + error);
+        //await db.closeConnectionSC();
+    }
+    
     try {
         console.log("Iniciando servidor ....")
         app.listen(app.get('port'),()=>{

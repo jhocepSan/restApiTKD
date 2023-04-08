@@ -7,6 +7,7 @@ import confRoutes from '../routes/configuraciones.routes.js'
 import userRoutes from '../routes/user.routes.js'
 import competidorRoutes from '../routes/competidor.routes.js'
 import mandoRoutes from '../routes/mando.routes.js'
+import qgis from '../routes/arboles.routes.js'
 import {dirname, join} from 'path'
 import {fileURLToPath} from 'url'
 import {PORT}from '../config/configDeploy.js'
@@ -28,7 +29,7 @@ app.use('/config',confRoutes);
 app.use('/usuario',userRoutes);
 app.use('/competidor',competidorRoutes);
 app.use('/mandojuec',mandoRoutes);
-
+app.use('/qgis',qgis);
 /*app.get("*", (req, res) => {
     res.sendFile(
       dirname(join(__dirname,"../app/tk-web/build/index.html"))

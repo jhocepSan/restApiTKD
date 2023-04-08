@@ -23,5 +23,11 @@ export const configuraciones = {
         connectionLimit: 20,
         queueLimit: 0
     },
+    CONFIGDBPG:{
+        user:'postgres',
+        host:'localhost',
+        password:'asdf',
+        database:'pruebasfinal'
+    },
     NOMBREAPP:"RestApi TKD V.1"
 }
