@@ -37,11 +37,13 @@ export const iniciarSession = async ({correo,password})=>{
             "(select nombre from campeonato where estado='A' and idcampeonato=res.idcampeonato) as nombrecampeonato "+
             "from (select *,(select max(idcampeonato) from campeonato where estado='A') as idcampeonato from usuario where correo=? ) as res ;";
         const [result] = await conn.query(sql,[correo])
-        console.log(result)
         if(result.length!==0){
             if(bycript.compareSync(password, result[0].password)){
                 var info =await getInfoCampeonato(conn,result[0].idcampeonato);
-                console.log(info);
+                if(result[0].albitro=='A'){
+                    await habilitarAlbitro(result[0],conn)
+                }
+                
                 return {"ok":{
                     id:result[0].idusuario,
                     correo:result[0].correo,
@@ -50,6 +52,8 @@ export const iniciarSession = async ({correo,password})=>{
                     idclub:result[0].idclub,
                     idcampeonato:result[0].idcampeonato,
                     nombrecampeonato:result[0].nombrecampeonato,
+                    albitro:result[0].albitro,
+                    estado:result[0].estado,
                     ...info
                 }}
             }
@@ -61,6 +65,16 @@ export const iniciarSession = async ({correo,password})=>{
     }finally{
         if(conn){await conn.release();}
     }
+}
+
+async function habilitarAlbitro(datos,conn){
+    const [info] = await conn.query('SELECT * FROM mandopunto WHERE idusuario=?;',[datos.idusuario])
+    if(info.length!=0){
+        await conn.query('UPDATE mandopunto SET estado="A" WHERE idusuario=?',[datos.idusuario])
+    }else{
+        await conn.query('INSERT INTO mandopunto (idusuario,estado) values (?,?);',[datos.idusuario,datos.albitro])
+    }
+    await conn.commit()
 }
 
 async function getInfoCampeonato(conn,idcampeonato){
