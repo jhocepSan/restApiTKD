@@ -1,9 +1,7 @@
 import {configuraciones} from './config/config.js'
 import app from './utils/app.js';
 import {pool,poolPostgress} from './utils/connection.js';
-import http from 'http';
-import {Server} from 'socket.io'
-
+import path from 'path'
 
 async function InitServer() {
     console.log(configuraciones.NOMBREAPP, '....');
@@ -24,30 +22,16 @@ async function InitServer() {
     }
     
     try {
-        /*console.log("Iniciando servidor ....")
+        console.log("Iniciando servidor ....")
         app.listen(app.get('port'),()=>{
             console.log('funcionando servidos en puerto '+ app.get('port'));
-        });*/
-        const server = http.createServer(app)
-        const io = new Server(server,{
-            cors:{
-                methods:["GET","POST"]
-            }
-        })
-        io.on("connection",(socket)=>{
-            console.log(socket.id)
-            socket.on("join_room",(data)=>{
-                console.log(data);
-                socket.join(data)
-            })
-            socket.on("send_message",(data)=>{
-                console.log(data);
-                socket.to(data.room).emit("receive_message",data);
-            })
-        })
-        server.listen(app.get('port'), function () {
-            console.log('funcionando servidos en puerto ' + app.get('port'));
         });
+        /*https.createServer({
+            cert: fs.readFileSync(path.resolve('C:\\Certbot\\live\\pedidos.chickenskingdom.com\\', 'fullchain.pem')),
+            key: fs.readFileSync(path.resolve('C:\\Certbot\\live\\pedidos.chickenskingdom.com\\', 'privkey.pem'))
+        }, app).listen(app.get('port'), function () {
+            console.log('funcionando servidos en puerto ' + app.get('port'));
+        });*/
     } catch (error) {
         console.log("Error iniciar Servidor : " + error)
     }

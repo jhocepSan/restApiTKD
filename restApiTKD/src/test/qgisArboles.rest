@@ -1,0 +1,20 @@
+###get datos
+POST  http://localhost:4001/qgis/sendInfo/
+Content-Type: application/json
+
+{
+    "cod_fundo":123,
+    "cod_rodal":251,
+    "usuario":"juan jose sanchez",
+    "id_utb":21,
+    "estado_utb":1,
+    "fecha":594688768,
+    "cant_arb_modificados":2,
+    "cant_arb_agregados":3,
+    "cant_arb_eliminados":1,
+    "cant_arb_inicio":34,
+    "cant_arb_fin":23
+}
+
+###GETaRBOLES
+GET  http://localhost:4001/qgis/ HTTP/1.1
