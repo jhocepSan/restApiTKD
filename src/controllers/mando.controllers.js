@@ -19,7 +19,7 @@ export const sendDatosPoomse=async(info)=>{
     var conn;
     try {
         conn =await pool.getConnection();
-        const [result] = await conn.query('UPDATE mandopunto SET poomseaccuracy=?,poomsepresentation=? WHERE idusuario=? and estado="A" ;',[info.ACCURACY,info.PRESENTATION,info.id])
+        const [result] = await conn.query('UPDATE mandopunto SET poomseaccuracy=?,poomsepresentation=?,sector=? WHERE idusuario=? and estado="A" ;',[info.ACCURACY,info.PRESENTATION,info.sector,info.id])
         await conn.commit();
         return {"ok":"ok"}
     } catch (error) {

@@ -70,9 +70,9 @@ export const iniciarSession = async ({correo,password})=>{
 async function habilitarAlbitro(datos,conn){
     const [info] = await conn.query('SELECT * FROM mandopunto WHERE idusuario=?;',[datos.idusuario])
     if(info.length!=0){
-        await conn.query('UPDATE mandopunto SET estado="A" WHERE idusuario=?',[datos.idusuario])
+        await conn.query('UPDATE mandopunto SET estado="A",tipoalbitro=? WHERE idusuario=?',[datos.tipoalbitro,datos.idusuario])
     }else{
-        await conn.query('INSERT INTO mandopunto (idusuario,estado) values (?,?);',[datos.idusuario,datos.albitro])
+        await conn.query('INSERT INTO mandopunto (idusuario,estado,tipoalbitro) values (?,?,?);',[datos.idusuario,datos.albitro,datos.tipoalbitro])
     }
     await conn.commit()
 }
